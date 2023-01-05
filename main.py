@@ -87,9 +87,20 @@ def add_member():
         e1.focus_set()
 
     except Exception as e:
-        print(e)
-        messagebox.showwarning("                        Input error",
-                               "        Duplicate Id number or \nRecords not inserted completely")
+        print(type(e))
+        if '1062 (23000)' in str(e):
+            messagebox.showwarning('SQL error', 'Duplicate member id')
+            print(e)
+
+        elif '1452 (23000)' in str(e):
+            messagebox.showwarning('SQL error', 'Invalid package Id or trainer ID')
+            print(e)
+
+        else:
+            messagebox.showwarning("Input error", "Please fill up all the records")
+            print(e)
+
+
         mysqldb.rollback()
         mysqldb.close()
 
